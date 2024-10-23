@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import os
 
 from processors.foot import add_foot_scores
-from processors.hidden_attributes import add_personality_attributes
+from processors.hidden import add_personality_attributes, add_hidden_attributes
 from processors.wage import add_wage_value
 
 
@@ -58,7 +58,7 @@ def read_file(file_name):
 def add_extra_attributes(df):
     df = add_foot_scores(df)
     df = add_wage_value(df)
-    df = add_personality_attributes(df)
+    df = add_hidden_attributes(df)
     return df
 
 
