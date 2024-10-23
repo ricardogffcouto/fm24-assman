@@ -2,6 +2,18 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import os
 
+def make_unique(columns):
+    seen = set()
+    for i, col in enumerate(columns):
+        original = col
+        counter = 1
+        while col in seen:
+            col = f"{original}.{counter}"
+            counter += 1
+        seen.add(col)
+        columns[i] = col
+    return columns
+
 def read_file(file_name):
     # Check if parquet file exists
     parquet_file = f'data/{file_name}.parquet'
@@ -29,6 +41,9 @@ def read_file(file_name):
     # Create a pandas DataFrame
     df = pd.DataFrame(data, columns=headers)
 
+    # Rename duplicate columns
+    df.columns = make_unique(list(df.columns))
+
     # Save as parquet file
     df.to_parquet(parquet_file)
     print(f"Parquet file {parquet_file} created.")
@@ -39,3 +54,4 @@ def read_file(file_name):
 file_name = '2025-01 Youth'
 df = read_file(file_name)
 print(df.head())
+print(df.columns)  # Print column names to verify uniqueness
