@@ -2,8 +2,9 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import os
 
+from processors.constants import NUMERIC_COLUMNS
 from processors.foot import add_foot_scores
-from processors.hidden import add_personality_attributes, add_hidden_attributes
+from processors.hidden import add_hidden_attributes
 from processors.position import parse_positions
 from processors.wage import add_wage_value
 
@@ -25,6 +26,13 @@ def add_extra_attributes(df):
     df = add_wage_value(df)
     df = add_hidden_attributes(df)
     df = parse_positions(df)
+    return df
+
+
+def convert_columns_to_numeric(df):
+    # Convert the specified columns to numeric
+    df[NUMERIC_COLUMNS] = df[NUMERIC_COLUMNS].apply(pd.to_numeric, errors='coerce')
+
     return df
 
 
@@ -65,8 +73,11 @@ def read_file(file_name):
 
     df = add_extra_attributes(df)
 
+    df = convert_columns_to_numeric(df)
+
     return df
 
 if __name__ == "__main__":
     df = read_file('2025-01 Youth')
-    df
+    columns = df.columns
+    df.head()
