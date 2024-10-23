@@ -14,6 +14,7 @@ def display_dataframe(df, columns_state=None):
         df,
         gridOptions=gridOptions,
         data_return_mode=DataReturnMode.FILTERED_AND_SORTED,
+        update_mode=GridUpdateMode.MANUAL,
         fit_columns_on_grid_load=False,
         theme='streamlit',
         height=500,
@@ -21,7 +22,6 @@ def display_dataframe(df, columns_state=None):
         reload_data=True,
         allow_unsafe_jscode=True,
         key=st.session_state.agGridKey,
-        update_on=["stateChanged"],
         columns_state=columns_state,
     )
 
