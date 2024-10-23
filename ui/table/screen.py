@@ -2,32 +2,32 @@ import uuid
 
 import streamlit as st
 from ui.constants import ScreenName
-from ui.table.filters import get_saved_filters, load_filter, save_filter
+from ui.table.columns import get_saved_columns, load_column, save_column
 from ui.table.utils import display_dataframe
 from ui.utils import navigate_to, download_as_csv_button
 
 
-def save_filter_component(columns_state):
-    filter_name = st.sidebar.text_input("Filter Name")
-    if st.sidebar.button("Save Current Filter"):
-        if filter_name:
+def save_column_component(columns_state):
+    column_name = st.sidebar.text_input("Column Schema Name")
+    if st.sidebar.button("Save Current Column Schema"):
+        if column_name:
             st.session_state.agGridKey = str(uuid.uuid4())
-            save_filter(filter_name, columns_state)
-            st.sidebar.success(f"Filter '{filter_name}' saved successfully!")
+            save_column(column_name, columns_state)
+            st.sidebar.success(f"Column Schema '{column_name}' saved successfully!")
         else:
-            st.sidebar.error("Please enter a filter name.")
+            st.sidebar.error("Please enter a column schema name.")
 
-def load_filter_component():
-    saved_filters = get_saved_filters()
-    selected_filter = st.sidebar.selectbox("Select a filter to load", [""] + saved_filters)
-    if selected_filter and st.sidebar.button("Load Selected Filter"):
-        loaded_filter = load_filter(selected_filter)
-        if loaded_filter:
-            st.session_state.columns_state = loaded_filter
+def load_column_component():
+    saved_columns = get_saved_columns()
+    selected_column = st.sidebar.selectbox("Select a column schema to load", [""] + saved_columns)
+    if selected_column and st.sidebar.button("Load Selected Column Schema"):
+        loaded_column = load_column(selected_column)
+        if loaded_column:
+            st.session_state.columns_state = loaded_column
             st.rerun()
 
-def reset_filter_component():
-    if st.sidebar.button("Reset Filter"):
+def reset_column_component():
+    if st.sidebar.button("Reset Column Schema"):
         st.session_state.pop('columns_state', None)
         st.session_state.agGridKey = str(uuid.uuid4())
 
@@ -51,9 +51,9 @@ def show_table_screen(df):
     if grid_response and grid_response['columns_state'] is not None:
         st.session_state["columns_state"] = grid_response['columns_state']
 
-    save_filter_component(grid_response.get('columns_state', None))
+    save_column_component(grid_response.get('columns_state', None))
 
-    load_filter_component()
+    load_column_component()
 
     download_as_csv_button(grid_response)
 

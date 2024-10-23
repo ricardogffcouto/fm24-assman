@@ -5,12 +5,12 @@ def navigate_to(screen):
     st.rerun()
 
 def download_as_csv_button(grid_response):
-    # Option to download the filtered data as CSV
-    filtered_df = grid_response['data']
-    csv = filtered_df.to_csv(index=False)
+    # Option to download the columned data as CSV
+    columned_df = grid_response['data']
+    csv = columned_df.to_csv(index=False)
     st.download_button(
-        label="Download filtered data as CSV",
+        label="Download columned data as CSV",
         data=csv,
-        file_name='filtered_data.csv',
+        file_name='columned_data.csv',
         mime='text/csv',
     )
