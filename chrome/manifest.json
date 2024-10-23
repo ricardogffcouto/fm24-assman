@@ -1,13 +1,15 @@
 {
     "manifest_version": 3,
-    "name": "Table Extender",
+    "name": "FMDataLab Enhancer",
     "version": "1.0",
     "description": "Extends information in a table on Football Manager Data Lab.",
     "permissions": ["activeTab", "scripting"],
     "content_scripts": [
         {
         "matches": ["https://www.fmdatalab.com/*"],
-        "js": ["contentScript.js"]
+        "js": [
+            "contentScript.js"
+          ]
         }
     ]
 }
