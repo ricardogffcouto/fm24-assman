@@ -50,8 +50,28 @@ def read_file(file_name):
 
     return df
 
+def add_foot_scores(df):
+    foot_mapping = {
+        'Fairly Strong': 4,
+        'Very Strong': 5,
+        'Reasonable': 2,
+        'Strong': 3,
+        'Weak': 1,
+        'Very Weak': 0
+    }
+
+    df['Left Foot Score'] = df['Left Foot'].map(foot_mapping)
+    df['Right Foot Score'] = df['Right Foot'].map(foot_mapping)
+    df['Footedness Score'] = df['Left Foot Score'] + df['Right Foot Score']
+    return df
+
+def add_extra_attributes(df):
+    df = add_foot_scores(df)
+    return df
+
 # Example usage
 file_name = '2025-01 Youth'
 df = read_file(file_name)
+df = add_extra_attributes(df)
 print(df.head())
 print(df.columns)  # Print column names to verify uniqueness
